@@ -468,8 +468,11 @@ endif()
 set(LIBPYTHON_TARGET_LIBRARIES
   ${builtin_link_libraries}
   )
-if(HAVE_LIBDL)
-  list(APPEND LIBPYTHON_TARGET_LIBRARIES ${HAVE_LIBDL})
+# Add dynamic loading library if needed
+# CMAKE_DL_LIBS is the standard CMake variable for dlopen libraries
+# It's empty on systems where dlopen is built into libc
+if(CMAKE_DL_LIBS)
+  list(APPEND LIBPYTHON_TARGET_LIBRARIES ${CMAKE_DL_LIBS})
 endif()
 if(WITH_THREAD OR PY_VERSION VERSION_GREATER_EQUAL "3.7")
     list(APPEND LIBPYTHON_TARGET_LIBRARIES ${CMAKE_THREAD_LIBS_INIT})

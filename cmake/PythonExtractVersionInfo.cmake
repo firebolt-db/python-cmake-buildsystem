@@ -186,7 +186,7 @@ function(python_compute_release_field3_value)
     endif()
 
     # Fallback for empty serial
-    if("${MY_RELEASE_SERIAL}" STREQUAL "")
+    if("${MY_RELEASE_SERIAL}" STREQUAL "" OR "${MY_RELEASE_SERIAL}" STREQUAL "+")
         set(MY_RELEASE_SERIAL 0)
     endif()
 

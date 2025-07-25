@@ -515,8 +515,17 @@ if(HAVE_BUILTIN_ACOSH)
   set(M_LIBRARIES )
   set(HAVE_LIBM 1)
 else()
-  find_library(HAVE_LIBM m)
-  set(M_LIBRARIES ${HAVE_LIBM})
+  # Find math library, but avoid static libm when building static libs
+  # Static libm.a requires internal glibc symbols that aren't available in static builds
+  if(USE_STATIC_LIBRARIES OR MAKE_STATIC_LIBRARIES)
+    # For static builds, use dynamic math library to avoid glibc symbol issues
+    set(M_LIBRARIES m)
+    set(HAVE_LIBM 1)
+  else()
+    # For dynamic builds, use normal detection
+    find_library(HAVE_LIBM m)
+    set(M_LIBRARIES ${HAVE_LIBM})
+  endif()
 endif()
 
 find_library(HAVE_LIBNCURSES ncurses)

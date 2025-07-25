@@ -601,6 +601,8 @@ elseif(CMAKE_C_COMPILER_ID MATCHES PGI)
     append_if_absent(CMAKE_C_FLAGS "-alias=traditional")
 endif()
 
+add_compile_options(-Wno-reserved-identifier -Wno-old-style-cast)
+
 if(MSVC)
     append_if_absent(CMAKE_C_FLAGS "/Zm200")
     string(REPLACE "/Ob2" "/Ob1" CMAKE_C_FLAGS_RELEASE ${CMAKE_C_FLAGS_RELEASE}) # InlineFunctionExpansion=1
